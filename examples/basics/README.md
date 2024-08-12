@@ -1,0 +1,1 @@
+Directory where data produced in the `basics.ipynb` notebook will be saved.
