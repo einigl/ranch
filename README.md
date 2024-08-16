@@ -3,23 +3,50 @@
 An API to easily handle radio astronomy FITS files with Python.
 
 
+## Features
+
+TODO
+
+
 ## Installation
 
-*TODO*
+To install `ranch`:
 
+Step 1: Create a virtual environment and activate it:
 
-## Get starting
-
-To use the API in a `.py` file :
-```
-import ranch
-```
-
-To import the data classes :
-```
-from ranch import Cube, Map, Profile
+```shell
+python -m venv venv
+source venv/bin/activate
 ```
 
-To import a specific function :
+Step 2 : install with pip:
+
+```shell
+pip install -e .
 ```
-from ranch.reduction.util import moment
+
+**Note :** to deactivate the virtual env :
+
+```shell
+deactivate
+```
+
+To delete the virtual environment:
+
+```shell
+rm -r venv
+```
+
+
+## Get started
+
+To get started, check out the jupyter notebooks presented in the `examples` folder.
+
+
+## Tests
+
+To test, run:
+
+```shell
+pytest && coverage-badge -o coverage.svg
+```
