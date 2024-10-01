@@ -1,8 +1,8 @@
 # Radio AstroNomy Cubes Handler (RANCH)
 
 [![PyPI version](https://badge.fury.io/py/astro-ranch.svg)](https://badge.fury.io/py/astro-ranch)
-[![Documentation Status](https://readthedocs.org/projects/astro-ranch/badge/?version=latest)](https://astro-ranch.readthedocs.io/en/latest/?badge=latest)
-![test coverage](./coverage.svg)
+[![Documentation Status](https://readthedocs.org/projects/ranch/badge/?version=latest)](https://ranch.readthedocs.io/en/latest/?badge=latest)
+![](./coverage.svg)
 
 An API to easily handle radio astronomy FITS files with Python.
 
@@ -16,7 +16,7 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-**Note 1:** to deactivate the virtual env :
+**Note 1:** to deactivate the virtual env:
 
 ```shell
 deactivate

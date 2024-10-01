@@ -1,5 +1,9 @@
 """ ranch module """
 
+import importlib.metadata
+
+__version__ = importlib.metadata.version("astro-ranch")
+
 from .structures import *
 
 from .core import *

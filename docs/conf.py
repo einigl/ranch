@@ -14,13 +14,15 @@ import sys
 
 sys.path.insert(0, os.path.abspath("../"))
 
+import importlib.metadata
+
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "RANCH"
 copyright = "2024, Lucas Einig"
 author = "Lucas Einig"
-release = "0.1.0"
+release = importlib.metadata.version("astro-ranch")
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -17,6 +17,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 repository = "https://github.com/einigl/ranch"
+packages=[{include="ranch"}]
 
 [tool.poetry.dependencies]
 python = ">=3.9"
