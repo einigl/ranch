@@ -2,9 +2,6 @@ poetry.lock
 */settings.json
 
 data
-doc
-showdoc.sh
-todo.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
