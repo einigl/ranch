@@ -16,6 +16,7 @@ __all__ = [
     "cube_from",
     "cube_from_maps",
     "cube_from_profiles",
+    "flatten",
     "from_fits",
     "from_numpy",
     "is_logical",
@@ -772,6 +773,21 @@ def clip(
 
 # To numpy
 
+def flatten(input: "struct.Struct"):
+    """
+    Shortcut for input.data.flatten().
+
+    Parameters
+    ----------
+    input : Cube | Map | Profile
+        Structure.
+
+    Returns
+    -------
+    np.ndarray
+        1D numpy array extracted from structure data.
+    """
+    return input.data.flatten()
 
 def to_numpy(input: "struct.Struct", item: str) -> np.ndarray:
     """TODO"""

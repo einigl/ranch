@@ -32,7 +32,7 @@ class Struct(ABC):
         self.data: np.ndarray = data  #: Data array
         self.header: fits.Header = hdr.update_header(data, header)  #: FITS header
 
-    from .core.util import copy, from_fits, from_numpy, ones, zeros
+    from .core.util import copy, from_fits, from_numpy, ones, zeros, flatten
 
     from_fits = classmethod(from_fits)
     from_numpy = classmethod(from_numpy)
