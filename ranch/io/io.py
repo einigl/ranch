@@ -173,8 +173,8 @@ def plot_map(
         ax.set_xlabel("$x$")
         ax.set_ylabel("$y$")
     else:
-        ax.set_xlabel("$\delta x$ (')")
-        ax.set_ylabel("$\delta y$ (')")
+        ax.set_xlabel("$\\delta x$ (')")
+        ax.set_ylabel("$\\delta y$ (')")
 
     return im, ax, cbar
 

@@ -32,7 +32,7 @@ class Struct(ABC):
         self.data: np.ndarray = data  #: Data array
         self.header: fits.Header = hdr.update_header(data, header)  #: FITS header
 
-    from .core.util import copy, from_fits, from_numpy, ones, zeros, flatten
+    from .core.util import copy, flatten, from_fits, from_numpy, ones, zeros
 
     from_fits = classmethod(from_fits)
     from_numpy = classmethod(from_numpy)
@@ -54,18 +54,13 @@ class Struct(ABC):
         """Number of scalars in the cube."""
         return self.data.size
 
-    # Unary float operators
-
-    # Getitem operator
-    # Comparison operators
-    # Binary boolean operators
-    # Unary boolean operators
-    # Binary float operators
+    # Operators
     from .core._op import (
         __abs__,
         __add__,
         __and__,
         __ceil__,
+        __contains__,
         __eq__,
         __floor__,
         __floordiv__,
@@ -83,6 +78,8 @@ class Struct(ABC):
         __pow__,
         __radd__,
         __rand__,
+        __rfloordiv__,
+        __rmod__,
         __rmul__,
         __ror__,
         __round__,
@@ -92,6 +89,7 @@ class Struct(ABC):
         __rxor__,
         __sub__,
         __truediv__,
+        __trunc__,
         __xor__,
     )
     from .core.math import (

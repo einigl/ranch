@@ -89,6 +89,26 @@ def _binary_op(
 
 
 @overload
+def __pos__(self: "struct.Cube") -> "struct.Cube":
+    ...
+
+
+@overload
+def __pos__(self: "struct.Map") -> "struct.Map":
+    ...
+
+
+@overload
+def __pos__(self: "struct.Profile") -> "struct.Profile":
+    ...
+
+
+def __pos__(self: "struct.Struct") -> "struct.Struct":
+    """Returns +self"""
+    return type(self)(self.data, self.header)
+
+
+@overload
 def __neg__(self: "struct.Cube") -> "struct.Cube":
     ...
 
@@ -129,23 +149,23 @@ def __abs__(self: "struct.Struct"):
 
 
 @overload
-def __round__(self: "struct.Cube") -> "struct.Cube":
+def __round__(self: "struct.Cube", ndigits: int = 0) -> "struct.Cube":
     ...
 
 
 @overload
-def __round__(self: "struct.Map") -> "struct.Map":
+def __round__(self: "struct.Map", ndigits: int = 0) -> "struct.Map":
     ...
 
 
 @overload
-def __round__(self: "struct.Profile") -> "struct.Profile":
+def __round__(self: "struct.Profile", ndigits: int = 0) -> "struct.Profile":
     ...
 
 
-def __round__(self: "struct.Struct"):
+def __round__(self: "struct.Struct", ndigits: int = 0):
     """Returns round(self)"""
-    return type(self)(self.data.round(), self.header)
+    return type(self)(self.data.round(decimals=ndigits), self.header)
 
 
 @overload
@@ -164,7 +184,7 @@ def __floor__(self: "struct.Profile") -> "struct.Profile":
 
 
 def __floor__(self: "struct.Struct"):
-    """Returns floor(self)"""
+    """Returns math.floor(self)"""
     return type(self)(np.floor(self.data), self.header)
 
 
@@ -184,8 +204,28 @@ def __ceil__(self: "struct.Profile") -> "struct.Profile":
 
 
 def __ceil__(self: "struct.Struct"):
-    """Returns ceil(self)"""
+    """Returns math.ceil(self)"""
     return type(self)(np.ceil(self.data), self.header)
+
+
+@overload
+def __trunc__(self: "struct.Cube") -> "struct.Cube":
+    ...
+
+
+@overload
+def __trunc__(self: "struct.Map") -> "struct.Map":
+    ...
+
+
+@overload
+def __trunc__(self: "struct.Profile") -> "struct.Profile":
+    ...
+
+
+def __trunc__(self: "struct.Struct"):
+    """Returns math.trunc(self)"""
+    return type(self)(np.trunc(self.data), self.header)
 
 
 # Binary float operators
@@ -469,6 +509,47 @@ def __floordiv__(self: "struct.Struct", other) -> "struct.Struct":
 
 
 @overload
+def __rfloordiv__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> "struct.Cube":
+    ...
+
+
+@overload
+def __rfloordiv__(
+    self: "struct.Map", other: Union["struct.Map", float]
+) -> "struct.Map":
+    ...
+
+
+@overload
+def __rfloordiv__(
+    self: "struct.Map", other: Union["struct.Cube", "struct.Profile"]
+) -> "struct.Cube":
+    ...
+
+
+@overload
+def __rfloordiv__(
+    self: "struct.Profile", other: Union["struct.Profile", float]
+) -> "struct.Profile":
+    ...
+
+
+@overload
+def __rfloordiv__(
+    self: "struct.Profile", other: Union["struct.Cube", "struct.Map"]
+) -> "struct.Cube":
+    ...
+
+
+def __rfloordiv__(self: "struct.Struct", other) -> "struct.Struct":
+    """Returns other // self"""
+    return _binary_op(self, other, getattr(np.ndarray, "__rfloordiv__"))
+
+
+@overload
 def __mod__(
     self: "struct.Cube",
     other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
@@ -505,6 +586,37 @@ def __mod__(
 def __mod__(self: "struct.Struct", other) -> "struct.Struct":
     """Returns self % other"""
     return _binary_op(self, other, getattr(np.ndarray, "__mod__"))
+
+
+@overload
+def __rmod__(self: "struct.Map", other: Union["struct.Map", float]) -> "struct.Map":
+    ...
+
+
+@overload
+def __rmod__(
+    self: "struct.Map", other: Union["struct.Cube", "struct.Profile"]
+) -> "struct.Cube":
+    ...
+
+
+@overload
+def __rmod__(
+    self: "struct.Profile", other: Union["struct.Profile", float]
+) -> "struct.Profile":
+    ...
+
+
+@overload
+def __rmod__(
+    self: "struct.Profile", other: Union["struct.Cube", "struct.Map"]
+) -> "struct.Cube":
+    ...
+
+
+def __rmod__(self: "struct.Struct", other) -> "struct.Struct":
+    """Returns other % self"""
+    return _binary_op(self, other, getattr(np.ndarray, "__rmod__"))
 
 
 @overload
@@ -566,7 +678,187 @@ def __rpow__(self: "struct.Struct", other) -> "struct.Struct":
     return _binary_op(self, other, getattr(np.ndarray, "__rpow__"))
 
 
-# Unary boolean operators
+# Augmented assignment float operators
+
+
+@overload
+def __iadd__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __iadd__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __iadd__(self: "struct.Profile", other: Union["struct.Profile", float]) -> None:
+    ...
+
+
+def __iadd__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self += other"""
+    new = self + other
+    self.data = new.data
+    self.header = new.header
+
+
+@overload
+def __isub__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __isub__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __isub__(self: "struct.Profile", other: Union["struct.Profile", float]) -> None:
+    ...
+
+
+def __isub__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self -= other"""
+    new = self - other
+    self.data = new.data
+    self.header = new.header
+
+
+@overload
+def __imul__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __imul__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __imul__(self: "struct.Profile", other: Union["struct.Profile", float]) -> None:
+    ...
+
+
+def __imul__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self *= other"""
+    new = self * other
+    self.data = new.data
+    self.header = new.header
+
+
+@overload
+def __itruediv__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __itruediv__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __itruediv__(self: "struct.Profile", other: Union["struct.Profile", float]) -> None:
+    ...
+
+
+def __itruediv__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self /= other"""
+    new = self / other
+    self.data = new.data
+    self.header = new.header
+
+
+@overload
+def __ifloordiv__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __ifloordiv__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __ifloordiv__(
+    self: "struct.Profile", other: Union["struct.Profile", float]
+) -> None:
+    ...
+
+
+def __ifloordiv__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self //= other"""
+    new = self // other
+    self.data = new.data
+    self.header = new.header
+
+
+@overload
+def __imod__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __imod__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __imod__(self: "struct.Profile", other: Union["struct.Profile", float]) -> None:
+    ...
+
+
+def __imod__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self %= other"""
+    new = self % other
+    self.data = new.data
+    self.header = new.header
+
+
+@overload
+def __ipow__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __ipow__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __ipow__(self: "struct.Profile", other: Union["struct.Profile", float]) -> None:
+    ...
+
+
+def __ipow__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self **= other"""
+    new = self**other
+    self.data = new.data
+    self.header = new.header
+
+
+# Unary logical operators
 
 
 @overload
@@ -593,7 +885,7 @@ def __invert__(self: "struct.Struct"):
     return type(self)(1 - self.data.astype("int"), self.header)
 
 
-# Binary boolean operators
+# Binary logical operators
 
 
 @overload
@@ -795,6 +1087,84 @@ def __rxor__(self: "struct.Profile", other: float) -> "struct.Profile":
 def __rxor__(self: "struct.Struct", other) -> "struct.Struct":
     """Returns other ^ self"""
     return self.__xor__(other)
+
+
+# Augmented assignment logical operators
+
+
+@overload
+def __iand__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __iand__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __iand__(self: "struct.Profile", other: Union["struct.Profile", float]) -> None:
+    ...
+
+
+def __iand__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self &= other"""
+    new = self & other
+    self.data = new.data
+    self.header = new.header
+
+
+@overload
+def __ior__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __ior__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __ior__(self: "struct.Profile", other: Union["struct.Profile", float]) -> None:
+    ...
+
+
+def __ior__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self |= other"""
+    new = self | other
+    self.data = new.data
+    self.header = new.header
+
+
+@overload
+def __ixor__(
+    self: "struct.Cube",
+    other: Union["struct.Cube", "struct.Map", "struct.Profile", float],
+) -> None:
+    ...
+
+
+@overload
+def __ixor__(self: "struct.Map", other: Union["struct.Map", float]) -> None:
+    ...
+
+
+@overload
+def __ixor__(self: "struct.Profile", other: Union["struct.Profile", float]) -> None:
+    ...
+
+
+def __ixor__(self: "struct.Struct", other: Union["struct.Struct", float]) -> None:
+    """Computes self ^= other"""
+    new = self ^ other
+    self.data = new.data
+    self.header = new.header
 
 
 # Comparison operators
@@ -1036,7 +1406,27 @@ def __lt__(
     return _binary_op(self, other, getattr(np.ndarray, "__lt__"))
 
 
-# Getitem operator
+# Other operators
+
+
+@overload
+def __contains__(self: "struct.Cube", item: float) -> "struct.Cube":
+    ...
+
+
+@overload
+def __contains__(self: "struct.Map", item: float) -> "struct.Map":
+    ...
+
+
+@overload
+def __contains__(self: "struct.Profile", item: float) -> "struct.Profile":
+    ...
+
+
+def __contains__(self: "struct.Struct", item: float) -> "struct.Struct":
+    """Returns item in self"""
+    return float(item) in self.data
 
 
 @overload
